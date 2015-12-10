@@ -51,10 +51,10 @@ def pearson(v1,v2):
 
 def manhattan(v1, v2):
    suma=0
-     for i in rangle(len(v1)):
-       suma+=pow(pow((v1[i]-v2[i],2),0.5)
-    return suma
-
+   for i in range(len(v1)):
+       suma+=pow(pow(v1[i]-v2[i], 2), 0.5)
+  
+   return suma
 
 class bicluster:
   def __init__(self,vec,left=None,right=None,distance=0.0,id=None):
