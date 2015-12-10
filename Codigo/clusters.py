@@ -56,7 +56,7 @@ class bicluster:
     self.id=id
     self.distance=distance
 
-def hcluster(rows,distance=pearson):
+def hcluster(rows,distance=euclidean):
   distances={}
   currentclustid=-1
 
@@ -180,7 +180,7 @@ def rotatematrix(data):
 
 import random
 
-def kcluster(rows,distance=pearson,k=4):
+def kcluster(rows,distance=euclidean,k=6):
   # Determinando el minimo y maximo valor para cada punto
   ranges=[(min([row[i] for row in rows]),max([row[i] for row in rows])) 
   for i in range(len(rows[0]))]
@@ -230,7 +230,7 @@ def tanamoto(v1,v2):
   
   return 1.0-(float(shr)/(c1+c2-shr))
 
-def scaledown(data,distance=pearson,rate=0.01):
+def scaledown(data,distance=euclidean,rate=0.01):
   n=len(data)
 
   # La distancia real entre cada par de items
