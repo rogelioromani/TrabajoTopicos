@@ -6,6 +6,17 @@ import re
 import codecs
 charset = "utf-8"
 
+def getwords(html):
+  # quita todas las etiquetas HTML
+  txt=re.compile(r'<[^>]+>').sub('',html)
+
+  # Divide las palabras con caracteres no alfabeticos
+  # se utiliza ur' para incluir caracateres con tilde unicode
+  words=re.compile(ur'[^A-Z^a-z^á-ü]+').split(txt) #### <===== OJO
+  # Convierte a minusculas
+  low = [word.lower() for word in words if word!='']
+  return low
+
 # Devuelve el titulo y un diccionario de conteo de palabras de un feed RSS
 def getwordcounts(url):
   # Analiza lexicamente el feed
@@ -25,16 +36,7 @@ def getwordcounts(url):
       wc[word]+=1
   return d.feed.title,wc      
 
-def getwords(html):
-  # quita todas las etiquetas HTML
-  txt=re.compile(r'<[^>]+>').sub('',html)
 
-  # Divide las palabras con caracteres no alfabeticos
-  # se utiliza ur' para incluir caracateres con tilde unicode
-  words=re.compile(ur'[^A-Z^a-z^á-ü]+').split(txt) #### <===== OJO
-  # Convierte a minusculas
-  low = [word.lower() for word in words if word!='']
-  return low
 
 def parsefeeds(filefeeds='feedlist.txt'):
   apcount={}
