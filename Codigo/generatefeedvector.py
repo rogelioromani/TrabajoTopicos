@@ -6,6 +6,31 @@ import re
 import codecs
 charset = "utf-8"
 
+# Devuelve el titulo y un diccionario de conteo de palabras de un feed RSS
+def getwordcounts(url):
+  # Analiza lexicamente el feed
+  d=feedparser.parse(url)
+  wr={}# variable que almacena un diccionario
+       # para el conteo de palabras de cada blog
+  t={} # titulo de cada blog
+  cont=0 #contador de todas las entradas
+ 
+  # itera sobre todas las entradas
+  for e in d.entries:
+    if 'summary' in e: summary=e.summary
+    else: summary=e.description
+
+    # extrae una lista de palabras
+    words=getwords(e.title+' '+summary)
+    wc={}
+    for word in words:
+      wc.setdefault(word,0)
+      wc[word]+=1
+      wr[e.title]=wc
+      t[cont]=e.title
+      cont=cont+1
+  return d.feed.title,wc,t,wr      
+
 def getwords(html):
   # quita todas las etiquetas HTML
   txt=re.compile(r'<[^>]+>').sub('',html)
@@ -16,27 +41,6 @@ def getwords(html):
   # Convierte a minusculas
   low = [word.lower() for word in words if word!='']
   return low
-
-# Devuelve el titulo y un diccionario de conteo de palabras de un feed RSS
-def getwordcounts(url):
-  # Analiza lexicamente el feed
-  d=feedparser.parse(url)
-  wc={}
-
-  # itera sobre todas las entradas
-  for e in d.entries:
-    
-    if 'summary' in e: summary=e.summary
-    else: summary=e.description
-
-    # extrae una lista de palabras
-    words=getwords(e.title+' '+summary)
-    for word in words:
-      wc.setdefault(word,0)
-      wc[word]+=1
-  return d.feed.title,wc      
-
-
 
 def parsefeeds(filefeeds='feedlist.txt'):
   apcount={}
