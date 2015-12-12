@@ -106,7 +106,7 @@ def hcluster(rows,distance=manhattan):
 
   return clust[0]
 
-def printclust(clust,labels=None,n=0):
+def printclust(clust,labels=None,n=0, ):
   # Identar para hacer un esquema jerarquico
   for i in range(n): print ' ',
   if clust.id<0:
@@ -205,8 +205,10 @@ def kcluster(rows,distance=manhattan,k=4):
     for j in range(len(rows)):
       row=rows[j]
       bestmatch=0
+      cont=0
       for i in range(k):
         d=distance(clusters[i],row)
+        cont=cont +d
         if d<distance(clusters[bestmatch],row): bestmatch=i
       bestmatches[bestmatch].append(j)
 
@@ -225,7 +227,7 @@ def kcluster(rows,distance=manhattan,k=4):
           avgs[j]/=len(bestmatches[i])
         clusters[i]=avgs
       
-  return bestmatches
+  return bestmatches, cont
 
 def tanamoto(v1,v2):
   c1,c2,shr=0,0,0
